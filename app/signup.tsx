@@ -1,11 +1,23 @@
 import { Stack, useRouter } from 'expo-router';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { Image, SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { firebaseAuth } from '../FirebaseConfig';
 
 const Signup = () => {
 
     const router = useRouter();
 
+    const signUp = async () => {
+        try {
+            const user = await createUserWithEmailAndPassword(firebaseAuth, email, password)
+            if (user) router.replace('/dashboard');
+        } catch (error: any) {
+            console.log(error)
+            alert('Sign up Failed: ' + error.message);
+        }
+    }
+    
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -163,6 +175,7 @@ const Signup = () => {
                     </View>
 
                     <TouchableOpacity
+                    onPress={signUp}
                         style={{
                             backgroundColor: '#9194EF',
                             width: 350,
