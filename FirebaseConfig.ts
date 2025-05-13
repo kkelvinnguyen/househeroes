@@ -2,14 +2,16 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyB_GyCM5FLozf0E80kkJoIy5w0vMfKBRto',
-  authDomain: 'househeroes-da922.firebaseapp.com',
-  projectId: 'househeroes-da922',
-  storageBucket: 'househeroes-da922.appspot.com',
-  messagingSenderId: '186728630589',
-  appId: '1:186728630589:web:12bd2e214a5ee8c8775d54',
-  measurementId: 'G-68PQ9DT057',
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
+
+console.log('API Key:', process.env.EXPO_PUBLIC_FIREBASE_API_KEY);
 
 export const app = initializeApp(firebaseConfig);
 export const firebaseAuth = getAuth(app);
