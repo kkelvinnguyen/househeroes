@@ -1,16 +1,32 @@
 import { Stack, useRouter } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { Image, SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { firebaseAuth } from '../FirebaseConfig';
+import { useAuth } from '../context/AuthContext';
+import { auth, db } from '../FirebaseConfig';
 
 const Signup = () => {
 
+    const { login } = useAuth();
     const router = useRouter();
 
     const signUp = async () => {
         try {
-            const user = await createUserWithEmailAndPassword(firebaseAuth, email, password)
+            const user = await createUserWithEmailAndPassword(auth, email, password)
+            
+            const userData = {
+            uid: user.user.uid,
+            firstName,
+            lastName,
+            email,
+            role: selectedRole || '',
+            pfp: selectedPfp || '',
+            };
+
+            const userRef = doc(db, 'users', userData.uid);
+            await setDoc(userRef, userData);
+            await login(userData);
             if (user) router.replace('/dashboard');
         } catch (error: any) {
             console.log(error)
@@ -38,22 +54,22 @@ const Signup = () => {
                     </TouchableOpacity>
                 </View>
 
-                <View style={{ paddingLeft: 30 }}>
-                    <Text style={{ color: '#303040', fontWeight: 'bold', fontSize: 30 }}>
-                        Create an Account
-                    </Text>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Text style={{ color: '#303040', fontSize: 20 }}>Already have an account? </Text>
-                        <TouchableOpacity onPress={() => router.push('/login')}>
-                            <Text style={{ color: '#303040', fontSize: 20, textDecorationLine: 'underline' }}>
-                                Log In
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
 
                 <View style={{ gap: 15, alignSelf: 'center', justifyContent: 'center' }}>
-                    <View style={{ flexDirection: 'row', paddingTop: 50, gap: 10 }}>
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style={{ color: '#303040', fontWeight: 'bold', fontSize: 30, alignItems: 'center' }}>
+                            Create an Account
+                        </Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={{ color: '#303040', fontSize: 20 }}>Already have an account? </Text>
+                            <TouchableOpacity onPress={() => router.push('/login')}>
+                                <Text style={{ color: '#303040', fontSize: 20, textDecorationLine: 'underline' }}>
+                                    Log In
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={{ flexDirection: 'row', paddingTop: 20, gap: 10 }}>
                         <TextInput
                             placeholder="First Name"
                             placeholderTextColor="#9194EF"
@@ -153,7 +169,7 @@ const Signup = () => {
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
                         <Text style={{ color: '#9194EF', fontSize: 14 }}>I am a:</Text>
                         <View style={{ flexDirection: 'row', gap: 15, marginLeft: 10 }}>
-                            {['parent', 'child'].map((role) => (
+                            {['Parent', 'Child'].map((role) => (
                                 <TouchableOpacity
                                     key={role}
                                     onPress={() => setSelectedRole(role)}
@@ -200,7 +216,7 @@ const Signup = () => {
             </View>
             <Image
                 source={require('../assets/images/group.png')}
-                style={{ width: 500, height: 550, alignSelf: 'center', marginTop: 100 }}
+                style={{ width: 500, height: 550, alignSelf: 'center', marginTop: 20 }}
             />
         </SafeAreaView>
     );
