@@ -8,29 +8,28 @@ import { useAuth } from '../context/AuthContext';
 
 const dashboard = () => {
     const { user, logout } = useAuth();
-    
-    let pfpImage;
 
-        if (user?.pfp === 'pfp1') {
+    let pfpImage;
+    if (user?.pfp === 'pfp1') {
         pfpImage = require('../assets/images/square_pfp.png');
-        } else if (user?.pfp === 'pfp2') {
+    } else if (user?.pfp === 'pfp2') {
         pfpImage = require('../assets/images/star_pfp.png');
-        } else if (user?.pfp === 'pfp3') {
+    } else if (user?.pfp === 'pfp3') {
         pfpImage = require('../assets/images/triangle_pfp.png');
-        } else {
+    } else {
         pfpImage = require('../assets/images/circle_pfp.png');
     }
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F6FD' }}>
             <Stack.Screen options={{ headerShown: false, animation: 'slide_from_right' }} />
-            <View style={{flex: 1, flexDirection: 'row'}}>
-
-               <View style={{ flex: 1 }}>
-                    <View style={{ flexDirection: 'row', marginTop: 40, marginLeft: 50 }}>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+                
+                <View style={{ width: '40%', paddingLeft: 50}}>
+                    <View style={{ flexDirection: 'row', marginTop: 40 }}>
                         <Image
-                        source={pfpImage}
-                        style={{ width: 50, height: 50, marginTop: 5 }}
+                            source={pfpImage}
+                            style={{ width: 50, height: 50, marginTop: 5 }}
                         />
                         <View style={{ marginLeft: 15 }}>
                             <Text style={{ color: '#303040', fontSize: 30, fontWeight: 'bold' }}>
@@ -43,15 +42,22 @@ const dashboard = () => {
                             </View>
                         </View>
                     </View>
+                    <View style={{width: '300%'}}>
+                        <Leaderboard />
+                    </View>
+                </View>
 
-                    <Leaderboard />
-                    <AvailableChores />
-                    <CurrentChores />
-
+                <View style={{ flex: 1, gap: 20, marginTop: 47, marginRight: 50, marginBottom: 27 }}>
+                    <View style={{ flex: 1 }}>
+                        <AvailableChores />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <CurrentChores />
+                    </View>
                 </View>
             </View>
         </SafeAreaView>
-    )
-}
+    );
+};
 
 export default dashboard;

@@ -5,8 +5,11 @@ import { AuthProvider } from '../context/AuthContext';
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <Slot />
-      <StatusBar style="auto" />
+       <Slot />
+     <StatusBar style="auto" />
     </AuthProvider>
   );
 }
+
+//       <Slot />
+//     <StatusBar style="auto" />
