@@ -33,7 +33,7 @@ const dashboard = () => {
                         />
                         <View style={{ marginLeft: 15 }}>
                             <Text style={{ color: '#303040', fontSize: 30, fontWeight: 'bold' }}>
-                                Hello, {user?.firstName}!
+                                Hello, {user?.firstName}! {user?.familyCode}
                             </Text>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ color: '#303040', fontSize: 20 }}>{user?.role} / </Text>

@@ -22,12 +22,13 @@ const Signup = () => {
             email,
             role: selectedRole || '',
             pfp: selectedPfp || '',
+            familyCode: "XXXX",
             };
 
             const userRef = doc(db, 'users', userData.uid);
             await setDoc(userRef, userData);
             await login(userData);
-            if (user) router.replace('/dashboard');
+            if (user) router.replace('/family');
         } catch (error: any) {
             console.log(error)
             alert('Sign up Failed: ' + error.message);
